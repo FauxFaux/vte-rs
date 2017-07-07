@@ -1,6 +1,7 @@
 #[macro_use]
 extern crate bitflags;
 extern crate gdk;
+extern crate gdk_sys as gdk_ffi;
 extern crate gio_sys as gio_ffi;
 #[macro_use]
 extern crate glib;
@@ -10,6 +11,7 @@ extern crate gtk;
 extern crate gtk_sys as gtk_ffi;
 extern crate libc;
 extern crate pango;
+extern crate pango_sys as pango_ffi;
 extern crate vte_sys as ffi;
 
 macro_rules! assert_initialized_main_thread {
@@ -41,3 +43,4 @@ pub use auto::*;
 mod auto;
 mod regex;
 mod terminal;
+mod pty;
