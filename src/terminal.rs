@@ -55,7 +55,6 @@ impl Terminal {
         }
     }
 
-
     /* actually not true, since this feature is deprecated, see libvte */
     #[cfg(feature="v0_48")]
     pub fn spawn_sync(&self, working_directory: Option<PathBuf>, argv: &[&str], envv: &[&str]) {
