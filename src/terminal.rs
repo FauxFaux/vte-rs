@@ -55,6 +55,23 @@ impl Terminal {
         }
     }
 
+
+    /* actually not true, since this feature is deprecated, see libvte */
+    #[cfg(feature="v0_48")]
+    pub fn spawn_sync(&self, working_directory: Option<PathBuf>, argv: &[&str], envv: &[&str]) {
+         let directory = working_directory.as_ref().map(|path_buf| path_buf.as_path());
+         unsafe {
+             ffi::vte_terminal_spawn_sync(
+                 self.to_glib_none().0,
+                 ffi::VTE_PTY_DEFAULT,
+                 directory.to_glib_none().0,
+                 argv.to_glib_none().0,
+                 envv.to_glib_none().0,
+                 glib_ffi::G_SPAWN_DEFAULT, None, ptr::null_mut(),
+                 ptr::null_mut(), ptr::null_mut(), ptr::null_mut());
+         }
+     }
+    
     #[cfg(feature="v0_48")]
     pub fn spawn_async(&self, working_directory: Option<PathBuf>, argv: &[&str], envv: &[&str]) {
         let directory = working_directory.as_ref().map(|path_buf| path_buf.as_path());
