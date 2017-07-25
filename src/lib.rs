@@ -44,3 +44,4 @@ mod auto;
 mod regex;
 mod terminal;
 mod pty;
+mod version;
