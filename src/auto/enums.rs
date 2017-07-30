@@ -77,6 +77,37 @@ impl SetValue for CursorBlinkMode {
     }
 }
 
+
+struct CursorBlinkModeVisitor;
+
+impl<'de> Visitor<'de> for CursorBlinkModeVisitor {
+    type Value = CursorBlinkMode;
+
+    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        formatter.write_str("An cursor shape, one of block, ibeam, underline.")
+    }
+
+    fn visit_str<E>(self, value: &str) -> Result<CursorBlinkMode, E>
+        where E: de::Error
+    {
+        match value {
+            "system" => Ok(CursorBlinkMode::System),
+            "on" => Ok(CursorBlinkMode::On),
+            "off" => Ok(CursorBlinkMode::Off),
+            _ => Err(de::Error::invalid_value(
+                de::Unexpected::Other("str for cursor blink mode"), &self)),
+        }
+    }
+}
+
+impl<'de> Deserialize<'de> for CursorBlinkMode {
+    fn deserialize<D>(deserializer: D) -> Result<CursorBlinkMode, D::Error>
+        where D: Deserializer<'de>
+    {
+        deserializer.deserialize_str(CursorBlinkModeVisitor)
+    }
+}
+
 /// An enumerated type which can be used to indicate what should the terminal
 /// draw at the cursor position.
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
@@ -138,6 +169,35 @@ impl<'a> FromValue<'a> for CursorShape {
 impl SetValue for CursorShape {
     unsafe fn set_value(value: &mut Value, this: &Self) {
         gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib() as i32)
+    }
+}
+
+struct CursorShapeVisitor;
+
+impl<'de> Visitor<'de> for CursorShapeVisitor {
+    type Value = CursorShape;
+
+    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        formatter.write_str("An cursor shape, one of block, ibeam, underline.")
+    }
+
+    fn visit_str<E>(self, value: &str) -> Result<CursorShape, E>
+        where E: de::Error
+    {
+        match value {
+            "block" => Ok(CursorShape::Block),
+            "ibeam" => Ok(CursorShape::Ibeam),
+            "underline" => Ok(CursorShape::Underline),
+            _ => Err(de::Error::invalid_value(de::Unexpected::Other("str for cursor shape"), &self)),
+        }
+    }
+}
+
+impl<'de> Deserialize<'de> for CursorShape {
+    fn deserialize<D>(deserializer: D) -> Result<CursorShape, D::Error>
+        where D: Deserializer<'de>
+    {
+        deserializer.deserialize_str(CursorShapeVisitor)
     }
 }
 
@@ -209,6 +269,37 @@ impl<'a> FromValue<'a> for EraseBinding {
 impl SetValue for EraseBinding {
     unsafe fn set_value(value: &mut Value, this: &Self) {
         gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib() as i32)
+    }
+}
+
+struct EraseBindingVisitor;
+
+impl<'de> Visitor<'de> for EraseBindingVisitor {
+    type Value = EraseBinding;
+
+    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        formatter.write_str("An erase binding, one of auto, tty, backspace, delete, delete_seq.")
+    }
+
+    fn visit_str<E>(self, value: &str) -> Result<EraseBinding, E>
+        where E: de::Error
+    {
+        match value {
+            "auto" => Ok(EraseBinding::Auto),
+            "backspace" => Ok(EraseBinding::AsciiBackspace),
+            "delete" => Ok(EraseBinding::AsciiDelete),
+            "delete_seq" => Ok(EraseBinding::DeleteSequence),
+            "tty" => Ok(EraseBinding::Tty),
+            _ => Err(de::Error::invalid_value(de::Unexpected::Other("str for erase binding"), &self)),
+        }
+    }
+}
+
+impl<'de> Deserialize<'de> for EraseBinding {
+    fn deserialize<D>(deserializer: D) -> Result<EraseBinding, D::Error>
+        where D: Deserializer<'de>
+    {
+        deserializer.deserialize_str(EraseBindingVisitor)
     }
 }
 
@@ -344,36 +435,5 @@ impl<'a> FromValue<'a> for WriteFlags {
 impl SetValue for WriteFlags {
     unsafe fn set_value(value: &mut Value, this: &Self) {
         gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib() as i32)
-    }
-}
-
-struct EraseBindingVisitor;
-
-impl<'de> Visitor<'de> for EraseBindingVisitor {
-    type Value = EraseBinding;
-
-    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        formatter.write_str("An erase binding, one of auto, tty, backspace, delete, delete_seq.")
-    }
-
-    fn visit_str<E>(self, value: &str) -> Result<EraseBinding, E>
-        where E: de::Error
-    {
-        match value {
-            "auto" => Ok(EraseBinding::Auto),
-            "backspace" => Ok(EraseBinding::AsciiBackspace),
-            "delete" => Ok(EraseBinding::AsciiDelete),
-            "delete_seq" => Ok(EraseBinding::DeleteSequence),
-            "tty" => Ok(EraseBinding::Tty),
-            _ => Err(de::Error::invalid_value(de::Unexpected::Other("str for erase binding"), &self)),
-        }
-    }
-}
-
-impl<'de> Deserialize<'de> for EraseBinding {
-    fn deserialize<D>(deserializer: D) -> Result<EraseBinding, D::Error>
-        where D: Deserializer<'de>
-    {
-        deserializer.deserialize_str(EraseBindingVisitor)
     }
 }
