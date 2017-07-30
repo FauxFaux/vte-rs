@@ -8,7 +8,6 @@ use glib;
 use glib::Value;
 use glib::object::IsA;
 use glib::translate::*;
-use glib_ffi;
 use gobject_ffi;
 use std::mem;
 use std::mem::transmute;
@@ -59,6 +58,7 @@ pub trait PtyExt {
     /// a location to store the number of rows, or `None`
     /// ## `columns`
     /// a location to store the number of columns, or `None`
+
     ///
     /// # Returns
     ///

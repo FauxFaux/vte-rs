@@ -9,6 +9,7 @@ use std::str;
 
 pub fn get_major_version() -> u32 {
     unsafe {
-        ffi::vte_get_major_version()
+        //ffi::vte_get_major_version();
     }
+    0
 }

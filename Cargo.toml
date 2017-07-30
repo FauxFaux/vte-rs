@@ -19,6 +19,7 @@ libc = "^0.2.21"
 pango = "^0.1.2"
 pango-sys = "^0.3.4"
 vte-sys = "^0.2.0"
+serde = "1.0.10"
 
 [lib]
 name = "vte"

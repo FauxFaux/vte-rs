@@ -25,6 +25,7 @@ use std::mem;
 use std::mem::transmute;
 use std::ptr;
 
+
 glib_wrapper! {
     pub struct Terminal(Object<ffi::VteTerminal>): [
         gtk::Widget => gtk_ffi::GtkWidget,
@@ -558,9 +559,9 @@ pub trait TerminalExt {
 
     fn get_property_delete_binding(&self) -> EraseBinding;
 
-    fn get_property_font_desc(&self) -> Option<pango::FontDescription>;
+   // fn get_property_font_desc(&self) -> Option<pango::FontDescription>;
 
-    fn set_property_font_desc(&self, font_desc: Option<&pango::FontDescription>);
+   // fn set_property_font_desc(&self, font_desc: Option<&pango::FontDescription>);
 
     fn get_property_pointer_autohide(&self) -> bool;
 
@@ -657,8 +658,9 @@ impl<O: IsA<Terminal> + IsA<glib::object::Object>> TerminalExt for O {
     }
 
     fn feed_child_binary(&self, data: u8, length: usize) {
+        let ref mut d = data.clone();
         unsafe {
-            ffi::vte_terminal_feed_child_binary(self.to_glib_none().0, data, length);
+            ffi::vte_terminal_feed_child_binary(self.to_glib_none().0, d, length);
         }
     }
 
@@ -1119,19 +1121,22 @@ impl<O: IsA<Terminal> + IsA<glib::object::Object>> TerminalExt for O {
         }
     }
 
-    fn get_property_font_desc(&self) -> Option<pango::FontDescription> {
-        let mut value = Value::from(None::<&pango::FontDescription>);
-        unsafe {
-            gobject_ffi::g_object_get_property(self.to_glib_none().0, "font-desc".to_glib_none().0, value.to_glib_none_mut().0);
-        }
-        value.get()
-    }
+    // fn get_property_font_desc(&self) -> Option<pango::FontDescription> {
+    //     //let mut value = Value::from(None::<&pango::FontDescription>);
+    //     let font_desc = self.into();
+    //     let font_desc = self.to_glib_none();
+       
+    //     unsafe {
+    //         gobject_ffi::g_object_get_property(self.to_glib_none().0, "font-desc".to_glib_none().0, font_desc.0);
+    //     }
+    //     font_desc.get()
+    // }
 
-    fn set_property_font_desc(&self, font_desc: Option<&pango::FontDescription>) {
-        unsafe {
-            gobject_ffi::g_object_set_property(self.to_glib_none().0, "font-desc".to_glib_none().0, Value::from(font_desc).to_glib_none().0);
-        }
-    }
+    // fn set_property_font_desc(&self, font_desc: Option<&pango::FontDescription>) {
+    //     unsafe {
+    //         gobject_ffi::g_object_set_property(self.to_glib_none().0, "font-desc".to_glib_none().0, font_desc.to_glib_none ().0);
+    //     }
+    // }
 
     fn get_property_pointer_autohide(&self) -> bool {
         let mut value = Value::from(&false);

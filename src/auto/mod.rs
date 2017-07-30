@@ -25,6 +25,9 @@ pub use self::flags::PTY_NO_HELPER;
 pub use self::flags::PTY_NO_FALLBACK;
 pub use self::flags::PTY_DEFAULT;
 
+mod regex;
+pub use self::regex::Regex;
+
 #[doc(hidden)]
 pub mod traits {
     pub use super::PtyExt;

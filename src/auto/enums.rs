@@ -10,6 +10,8 @@ use glib::value::{Value, SetValue, FromValue, FromValueOptional};
 use gobject_ffi;
 use glib::translate::*;
 use std;
+use std::fmt;
+use serde::de::{self, Visitor};
 
 /// An enumerated type which can be used to indicate the cursor blink mode
 /// for the terminal.
@@ -51,7 +53,9 @@ impl FromGlib<ffi::VteCursorBlinkMode> for CursorBlinkMode {
 
 impl StaticType for CursorBlinkMode {
     fn static_type() -> Type {
-        unsafe { from_glib(ffi::vte_cursor_blink_mode_get_type()) }
+        ::glib::Type::BaseEnum
+        //CursorBlinkMode::GlibType
+        //unsafe { from_glib(ffi::vte_cursor_blink_mode_get_type()) }
     }
 }
 
@@ -113,7 +117,9 @@ impl FromGlib<ffi::VteCursorShape> for CursorShape {
 
 impl StaticType for CursorShape {
     fn static_type() -> Type {
-        unsafe { from_glib(ffi::vte_cursor_shape_get_type()) }
+        ::glib::Type::BaseEnum
+        //CursorShape::GlibType
+        // unsafe { from_glib(ffi::vte_cursor_shape_get_type()) }
     }
 }
 
@@ -182,7 +188,9 @@ impl FromGlib<ffi::VteEraseBinding> for EraseBinding {
 
 impl StaticType for EraseBinding {
     fn static_type() -> Type {
-        unsafe { from_glib(ffi::vte_erase_binding_get_type()) }
+        ::glib::Type::BaseEnum
+        //EraseBinding::GlibType
+        // unsafe { from_glib(ffi::vte_erase_binding_get_type()) }
     }
 }
 
@@ -259,7 +267,9 @@ impl ErrorDomain for PtyError {
 
 impl StaticType for PtyError {
     fn static_type() -> Type {
-        unsafe { from_glib(ffi::vte_pty_error_get_type()) }
+        ::glib::Type::BaseEnum
+        //PtyError::GlibType
+        //        unsafe { from_glib(ffi::vte_pty_error_get_type()) }
     }
 }
 
@@ -315,7 +325,7 @@ impl FromGlib<ffi::VteWriteFlags> for WriteFlags {
 
 impl StaticType for WriteFlags {
     fn static_type() -> Type {
-        unsafe { from_glib(ffi::vte_write_flags_get_type()) }
+        ::glib::Type::BaseFlags
     }
 }
 
@@ -337,3 +347,23 @@ impl SetValue for WriteFlags {
     }
 }
 
+impl<'de> Visitor<'de> for EraseBinding {
+    type Value = EraseBinding;
+
+    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        formatter.write_str("An erase binding, one of auto, tty, backspace, delete, delete_seq.")
+    }
+
+    fn visit_str<E>(self, value: &str) -> Result<EraseBinding, E>
+        where E: de::Error
+    {
+        match value {
+            "auto" => Ok(EraseBinding::Auto),
+            "backspace" => Ok(EraseBinding::AsciiBackspace),
+            "delete" => Ok(EraseBinding::AsciiDelete),
+            "delete_seq" => Ok(EraseBinding::DeleteSequence),
+            "tty" => Ok(EraseBinding::Tty),
+            _ => Err(de::Error::invalid_value(de::Unexpected::Other("str for erase binding"), &self)),
+        }
+    }
+}

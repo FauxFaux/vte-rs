@@ -9,13 +9,13 @@ use gobject_ffi;
 use glib::translate::*;
 
 bitflags! {
-    pub struct PtyFlags: u32 {
-        const PTY_NO_LASTLOG = 1;
-        const PTY_NO_UTMP = 2;
-        const PTY_NO_WTMP = 4;
-        const PTY_NO_HELPER = 8;
-        const PTY_NO_FALLBACK = 16;
-        const PTY_DEFAULT = 0;
+    pub flags PtyFlags: u32 {
+        const PTY_NO_LASTLOG = 1,
+        const PTY_NO_UTMP = 2,
+        const PTY_NO_WTMP = 4,
+        const PTY_NO_HELPER = 8,
+        const PTY_NO_FALLBACK = 16,
+        const PTY_DEFAULT = 0,
     }
 }
 
@@ -38,7 +38,7 @@ impl FromGlib<ffi::VtePtyFlags> for PtyFlags {
 
 impl StaticType for PtyFlags {
     fn static_type() -> Type {
-        unsafe { from_glib(ffi::vte_pty_flags_get_type()) }
+        Type::BaseFlags
     }
 }
 

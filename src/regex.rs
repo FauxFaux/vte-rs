@@ -3,7 +3,6 @@ use std::ptr;
 use ffi;
 use glib::translate::{ToGlibPtr, from_glib_full, from_glib_none};
 use gtk::Error;
-
 use Regex;
 
 impl Regex {

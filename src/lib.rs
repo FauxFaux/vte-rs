@@ -13,6 +13,7 @@ extern crate libc;
 extern crate pango;
 extern crate pango_sys as pango_ffi;
 extern crate vte_sys as ffi;
+extern crate serde;
 
 macro_rules! assert_initialized_main_thread {
     () => (
