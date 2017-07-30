@@ -11,7 +11,7 @@ use gobject_ffi;
 use glib::translate::*;
 use std;
 use std::fmt;
-use serde::de::{self, Visitor};
+use serde::de::{self, Visitor, Deserializer, Deserialize};
 
 /// An enumerated type which can be used to indicate the cursor blink mode
 /// for the terminal.
@@ -347,7 +347,9 @@ impl SetValue for WriteFlags {
     }
 }
 
-impl<'de> Visitor<'de> for EraseBinding {
+struct EraseBindingVisitor;
+
+impl<'de> Visitor<'de> for EraseBindingVisitor {
     type Value = EraseBinding;
 
     fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
@@ -365,5 +367,13 @@ impl<'de> Visitor<'de> for EraseBinding {
             "tty" => Ok(EraseBinding::Tty),
             _ => Err(de::Error::invalid_value(de::Unexpected::Other("str for erase binding"), &self)),
         }
+    }
+}
+
+impl<'de> Deserialize<'de> for EraseBinding {
+    fn deserialize<D>(deserializer: D) -> Result<EraseBinding, D::Error>
+        where D: Deserializer<'de>
+    {
+        deserializer.deserialize_str(EraseBindingVisitor)
     }
 }
