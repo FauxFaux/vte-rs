@@ -22,7 +22,7 @@ pub enum ModifierKey {
 }
 
 impl ModifierKey {
-    pub fn to_modifier(&self) -> ModifierType {
+    pub fn to_modifier_type(&self) -> ModifierType {
         ModifierType::from_bits_truncate(*self as u32)
     }
 }
@@ -31,24 +31,26 @@ impl ModifierKey {
 /// for the terminal.
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
 pub enum CursorBlinkMode {
-    System,
-    On,
-    Off,
-    #[doc(hidden)]
-    __Unknown(i32),
+    System = 0,
+    On = 1,
+    Off = 2,
 }
+
+
 
 #[doc(hidden)]
 impl ToGlib for CursorBlinkMode {
     type GlibType = ffi::VteCursorBlinkMode;
 
     fn to_glib(&self) -> ffi::VteCursorBlinkMode {
-        match *self {
-            CursorBlinkMode::System => ffi::VTE_CURSOR_BLINK_SYSTEM,
+        unsafe {std::mem::transmute (*self as u32)}
+        /*match *self {
+            
+            /* CursorBlinkMode::System => ffi::VTE_CURSOR_BLINK_SYSTEM,
             CursorBlinkMode::On => ffi::VTE_CURSOR_BLINK_ON,
             CursorBlinkMode::Off => ffi::VTE_CURSOR_BLINK_OFF,
             CursorBlinkMode::__Unknown(value) => unsafe{std::mem::transmute(value)}
-        }
+       */ }*/
     }
 }
 
@@ -56,12 +58,13 @@ impl ToGlib for CursorBlinkMode {
 impl FromGlib<ffi::VteCursorBlinkMode> for CursorBlinkMode {
     fn from_glib(value: ffi::VteCursorBlinkMode) -> Self {
         skip_assert_initialized!();
-        match value as i32 {
+        unsafe {std::mem::transmute (value as u8)}
+        /*       match value as i32 {
             0 => CursorBlinkMode::System,
             1 => CursorBlinkMode::On,
             2 => CursorBlinkMode::Off,
             value => CursorBlinkMode::__Unknown(value),
-        }
+        }*/
     }
 }
 
