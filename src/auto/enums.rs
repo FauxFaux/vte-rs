@@ -9,28 +9,21 @@ use glib::StaticType;
 use glib::value::{Value, SetValue, FromValue, FromValueOptional};
 use gobject_ffi;
 use glib::translate::*;
+use gdk::ModifierType;
 use std;
 use std::fmt;
 use serde::de::{self, Visitor, Deserializer, Deserialize};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
 pub enum ModifierKey {
-    CtrlL(u32),
-    AltL(u32),
-    AltL_CtrlL(u32)
+    CtrlL = 20,
+    AltL = 24,
+    AltLCtrlL = 28,
 }
 
 impl ModifierKey {
-    pub fn ctrl_l() -> ModifierKey {
-        ModifierKey::CtrlL(20)
-    }
-    
-    pub fn alt_l() -> ModifierKey {
-        ModifierKey::AltL(24)
-    }
-    
-    pub fn alt_l_ctrl_l() -> ModifierKey {
-        ModifierKey::AltL_CtrlL(28)
+    pub fn to_modifier(&self) -> ModifierType {
+        ModifierType::from_bits_truncate(*self as u32)
     }
 }
 
