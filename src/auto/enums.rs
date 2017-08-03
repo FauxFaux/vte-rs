@@ -13,6 +13,27 @@ use std;
 use std::fmt;
 use serde::de::{self, Visitor, Deserializer, Deserialize};
 
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
+pub enum ModifierKey {
+    CtrlL(u32),
+    AltL(u32),
+    AltL_CtrlL(u32)
+}
+
+impl ModifierKey {
+    pub fn ctrl_l() -> ModifierKey {
+        ModifierKey::CtrlL(20)
+    }
+    
+    pub fn alt_l() -> ModifierKey {
+        ModifierKey::AltL(24)
+    }
+    
+    pub fn alt_l_ctrl_l() -> ModifierKey {
+        ModifierKey::AltL_CtrlL(28)
+    }
+}
+
 /// An enumerated type which can be used to indicate the cursor blink mode
 /// for the terminal.
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
@@ -84,7 +105,7 @@ impl<'de> Visitor<'de> for CursorBlinkModeVisitor {
     type Value = CursorBlinkMode;
 
     fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        formatter.write_str("An cursor shape, one of block, ibeam, underline.")
+        formatter.write_str("A cursor shape, one of block, ibeam, underline.")
     }
 
     fn visit_str<E>(self, value: &str) -> Result<CursorBlinkMode, E>
