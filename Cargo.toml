@@ -3,7 +3,23 @@ authors = ["Antoni Boucher <bouanto@zoho.com>"]
 description = "Rust bindings for the VTE 3 library"
 license = "MIT"
 name = "vte-rs"
-version = "0.1.6"
+version = "0.1.7"
+readme = "Doc.md"
+repository = "https://github.com/santifa/vte-rs"
+links = "vte"
+build = "build.rs"
+
+[build-dependencies]
+pkg-config = "0.3.7"
+
+
+[features]
+v0_40 = []
+v0_42 = ["v0_40"]
+v0_44 = ["v0_42"]
+v0_46 = ["v0_44"]
+v0_48 = ["v0_46"]
+
 
 [dependencies]
 bitflags = "^0.8.2"
@@ -15,18 +31,8 @@ glib-sys = "^0.3.3"
 gobject-sys = "^0.3.3"
 gtk = "^0.1.2"
 gtk-sys = "^0.3.3"
-libc = "^0.2.21"
+libc = "^0.2.29"
 pango = "^0.1.2"
 pango-sys = "^0.3.4"
-vte-sys = "^0.2.0"
 serde = "1.0.10"
-
-[lib]
-name = "vte"
-
-[features]
-v0_40 = ["vte-sys/v0_40"]
-v0_42 = ["v0_40", "vte-sys/v0_42"]
-v0_44 = ["v0_42", "vte-sys/v0_44"]
-v0_46 = ["v0_44", "vte-sys/v0_46"]
-v0_48 = ["v0_46", "vte-sys/v0_48"]
+atk-sys = "^0.3.3"
