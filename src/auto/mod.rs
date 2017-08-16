@@ -9,14 +9,6 @@ mod terminal;
 pub use self::terminal::Terminal;
 pub use self::terminal::TerminalExt;
 
-mod flags;
-pub use self::flags::PtyFlags;
-pub use self::flags::PTY_NO_LASTLOG;
-pub use self::flags::PTY_NO_UTMP;
-pub use self::flags::PTY_NO_WTMP;
-pub use self::flags::PTY_NO_HELPER;
-pub use self::flags::PTY_NO_FALLBACK;
-pub use self::flags::PTY_DEFAULT;
 
 mod regex;
 pub use self::regex::Regex;

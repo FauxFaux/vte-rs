@@ -56,3 +56,12 @@ pub use self::enums::EraseBinding;
 pub use self::enums::PtyError;
 pub use self::enums::WriteFlags;
 pub use self::enums::ModifierKey;
+
+mod flags;
+pub use self::flags::PtyFlags;
+pub use self::flags::PTY_NO_LASTLOG;
+pub use self::flags::PTY_NO_UTMP;
+pub use self::flags::PTY_NO_WTMP;
+pub use self::flags::PTY_NO_HELPER;
+pub use self::flags::PTY_NO_FALLBACK;
+pub use self::flags::PTY_DEFAULT;
