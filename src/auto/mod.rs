@@ -9,14 +9,6 @@ mod terminal;
 pub use self::terminal::Terminal;
 pub use self::terminal::TerminalExt;
 
-mod enums;
-pub use self::enums::CursorBlinkMode;
-pub use self::enums::CursorShape;
-pub use self::enums::EraseBinding;
-pub use self::enums::PtyError;
-pub use self::enums::WriteFlags;
-pub use self::enums::ModifierKey;
-
 mod flags;
 pub use self::flags::PtyFlags;
 pub use self::flags::PTY_NO_LASTLOG;

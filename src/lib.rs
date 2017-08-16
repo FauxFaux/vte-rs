@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 #[macro_use]
 extern crate bitflags;
 extern crate gdk;
@@ -13,6 +15,7 @@ extern crate libc;
 extern crate pango;
 extern crate pango_sys as pango_ffi;
 extern crate serde;
+
 
 macro_rules! assert_initialized_main_thread {
     () => (
@@ -45,3 +48,11 @@ mod auto;
 mod regex;
 mod terminal;
 mod pty;
+
+mod enums;
+pub use self::enums::CursorBlinkMode;
+pub use self::enums::CursorShape;
+pub use self::enums::EraseBinding;
+pub use self::enums::PtyError;
+pub use self::enums::WriteFlags;
+pub use self::enums::ModifierKey;
