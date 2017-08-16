@@ -44,7 +44,6 @@ use glib::Error;
 pub use auto::*;
 
 mod ffi;
-mod auto;
 mod regex;
 mod terminal;
 mod pty;
@@ -69,5 +68,4 @@ pub use self::flags::PTY_DEFAULT;
 pub mod traits {
     pub use super::pty::PtyExt;
     pub use super::terminal::TerminalExt;
-
 }
