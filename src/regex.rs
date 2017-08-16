@@ -3,7 +3,15 @@ use std::ptr;
 use ffi;
 use glib::translate::{ToGlibPtr, from_glib_full, from_glib_none};
 use gtk::Error;
-use Regex;
+
+glib_wrapper! {
+    pub struct Regex(Shared<ffi::VteRegex>);
+
+    match fn {
+        ref => |ptr| ffi::vte_regex_ref(ptr),
+        unref => |_ptr| (),
+    }
+}
 
 impl Regex {
     pub fn new_for_match(pattern: &str, flags: u32) -> Result<Regex, Error> {
@@ -29,6 +37,14 @@ impl Regex {
             else {
                 Err(from_glib_full(error))
             }
+        }
+    }
+
+    pub fn jit(&self, flags: u32) -> Result<(), Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let _ = ffi::vte_regex_jit(self.to_glib_none().0, flags, &mut error);
+            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
         }
     }
 }

@@ -5,10 +5,6 @@ mod terminal;
 pub use self::terminal::Terminal;
 pub use self::terminal::TerminalExt;
 
-
-mod regex;
-pub use self::regex::Regex;
-
 #[doc(hidden)]
 pub mod traits {
     pub use super::TerminalExt;
