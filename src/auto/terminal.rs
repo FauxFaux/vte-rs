@@ -5,7 +5,7 @@ use CursorBlinkMode;
 use CursorShape;
 use EraseBinding;
 use Error;
-use Pty;
+use pty::Pty;
 use ffi;
 use gdk;
 use glib;

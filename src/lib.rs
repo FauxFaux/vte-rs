@@ -65,3 +65,7 @@ pub use self::flags::PTY_NO_WTMP;
 pub use self::flags::PTY_NO_HELPER;
 pub use self::flags::PTY_NO_FALLBACK;
 pub use self::flags::PTY_DEFAULT;
+
+pub mod traits {
+    pub use super::pty::PtyExt;
+}
