@@ -68,4 +68,6 @@ pub use self::flags::PTY_DEFAULT;
 
 pub mod traits {
     pub use super::pty::PtyExt;
+    pub use super::terminal::TerminalExt;
+
 }
