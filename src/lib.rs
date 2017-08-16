@@ -41,12 +41,18 @@ macro_rules! callback_guard {
 }
 
 use glib::Error;
-pub use auto::*;
 
 mod ffi;
 mod regex;
+pub use self::regex::Regex;
+
 mod terminal;
+pub use self::terminal::Terminal;
+pub use self::terminal::TerminalExt;
+
 mod pty;
+pub use self::pty::Pty;
+pub use self::pty::PtyExt;
 
 mod enums;
 pub use self::enums::CursorBlinkMode;
